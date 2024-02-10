@@ -1,16 +1,8 @@
-import pygetwindow as gw
 import tkinter as tk
+
 import pygetwindow as gw
 
 
-def get_vlc_titles():
-    windows = gw.getWindowsWithTitle('VLC media player')
-    titles = [w.title for w in windows]
-    return titles
-
-
-titles = get_vlc_titles()
-realTitles = [title.replace(' - VLC media player', '') for title in titles]
 class Model:
     def __init__(self):
         pass
@@ -30,7 +22,8 @@ class View:
         self.title_label = tk.Label(root, text="Real Titles:")
         self.title_label.pack()
         self.title_listbox = tk.Listbox(root)
-        self.title_listbox.pack()
+        self.title_listbox.pack(fill=tk.BOTH,
+                                expand=True)  # Adjusts the size of the listbox with the main window
 
     def update_titles(self, titles):
         self.title_listbox.delete(0, tk.END)
@@ -52,6 +45,7 @@ class Controller:
 def main():
     model = Model()
     root = tk.Tk()
+    root.geometry("500x400")
     view = View(root)
     controller = Controller(model, view)
     root.mainloop()
