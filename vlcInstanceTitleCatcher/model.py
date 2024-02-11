@@ -37,6 +37,8 @@ class Directories:
                     fileInfoList.append(file_info)
         df = pd.DataFrame(fileInfoList)
         return df
+
+
 class VlcTitleCatcher:
     def getVlcTitles(self):
         windows = gw.getWindowsWithTitle('VLC media player')
@@ -45,6 +47,7 @@ class VlcTitleCatcher:
 
     def getRealTitles(self):
         return [title.replace(' - VLC media player', '') for title in self.getVlcTitles()]
+
 
 class Model:
     def __init__(self, directories):
@@ -59,5 +62,7 @@ class Model:
 
     def findDuplicateFiles(self):
         return self.directories.duplicateFiles
+
+
 # z = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).processDirectories()
 z2 = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).findDuplicateFiles()
