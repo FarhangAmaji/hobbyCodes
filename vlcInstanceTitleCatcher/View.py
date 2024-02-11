@@ -80,9 +80,10 @@ class View(QMainWindow):
                 child.widget().deleteLater()
 
         # Get the title of the selected row
-        selected_items = self.table.selectedItems()
-        if selected_items:
-            title = selected_items[0].text()
+        current_row = self.table.currentRow()
+        title_item = self.table.item(current_row, 0)  # Get the 'Title' cell of the selected row
+        if title_item:
+            title = title_item.text()
             # find the key in the last_titleStates == title
             stateDict = self.last_titleStates[title]
 
