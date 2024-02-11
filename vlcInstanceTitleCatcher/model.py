@@ -62,7 +62,3 @@ class Model:
 
     def findDuplicateFiles(self):
         return self.directories.duplicateFiles
-
-
-# z = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).processDirectories()
-z2 = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).findDuplicateFiles()

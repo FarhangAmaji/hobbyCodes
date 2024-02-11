@@ -9,19 +9,16 @@ class View(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # Initialize the table widget
-        self.table = QTableWidget()
-
         # Create the main layout with equal heights for upper and lower parts
         main_layout = QVBoxLayout()
-        upper_widget = QWidget()  # Create a QWidget for the upper part
-        upper_layout = QVBoxLayout()
-        upper_widget.setLayout(upper_layout)  # Set the layout for the upper widget
-        upper_layout.addWidget(self.table)
+
+        # Initialize the table widget for upper part
+        self.table = QTableWidget()
+
         lower_widget = QWidget()  # Create a QWidget for the lower part
         lower_layout = QVBoxLayout()
         lower_widget.setLayout(lower_layout)  # Set the layout for the lower widget
-        main_layout.addWidget(upper_widget, stretch=1)  # Add widgets to the main layout
+        main_layout.addWidget(self.table, stretch=1)  # Add widgets to the main layout
         main_layout.addWidget(lower_widget, stretch=1)
 
         # Create a red frame for the lower part background

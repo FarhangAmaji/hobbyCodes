@@ -7,16 +7,18 @@ from vlcInstanceTitleCatcher.View import View
 from vlcInstanceTitleCatcher.model import Model
 
 
-# kkk jj which is a duplicate in subDir doesnt have dropdown
+# kkk alireza jj which is a duplicate in subDir doesnt have dropdown
 def main():
     app = QApplication(sys.argv)  # Create the QApplication object
+    try:
+        model = Model([r'E:\vids\paint\uncat', r'I:\musicvideo'])
+        view = View()
+        controller = Controller(model, view)
+        view.show()  # Make the view visible
 
-    model = Model([r'E:\vids\paint\uncat', r'I:\musicvideo'])
-    view = View()
-    controller = Controller(model, view)
-    view.show()  # Make the view visible
-
-    sys.exit(app.exec_())  # Start the event loop
+        sys.exit(app.exec_())  # Start the event loop
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
