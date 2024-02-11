@@ -30,15 +30,15 @@ class Controller:
 
         for title in titles:
             title = removeExtension(title)
-            duplicates = None
             if title in self.model.directories.fileInfos['fileName'].values:
+            duplicates = None
                 state = "single file"
-                if title in self.model.directories.duplicateFiles.keys():
                     state = "has duplicates"
+                if title in self.model.directories.duplicateFiles.keys():
                     duplicates_ = self.model.directories.duplicateFiles[title]
                     duplicates = []
-                    for file in duplicates_:
                         if file['subDir'] != '.':
+                    for file in duplicates_:
                             duplicate_path = os.path.join(file['rootDir'], file['subDir'],
                                                           file['fileName'] + file['fileExtension'])
                         else:
@@ -48,8 +48,8 @@ class Controller:
             else:
                 state = "Not found"
             title_states[title] = {'state': state, 'duplicates': duplicates}
-
         return title_states
+
 
     def updateTitles(self):
         titles = self.model.getRealTitles()
