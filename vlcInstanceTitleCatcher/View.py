@@ -1,8 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QHeaderView, \
-    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
+    QWidget, QLabel, QVBoxLayout, QFrame
 
-z1 = ['1', '2']
 
 
 class View(QMainWindow):
@@ -14,6 +13,8 @@ class View(QMainWindow):
 
         # Initialize the table widget for upper part
         self.table = QTableWidget()
+        # Connect the slot to the signal
+        self.table.itemSelectionChanged.connect(self.onSelectionChanged)
 
         lower_widget = QWidget()  # Create a QWidget for the lower part
         lower_layout = QVBoxLayout()
@@ -26,13 +27,9 @@ class View(QMainWindow):
         red_frame.setStyleSheet("background-color: red; border: 1px solid black;")
         lower_layout.addWidget(red_frame)  # Add the red frame to the lower layout
 
-        # Create z1 labels within the red frame
-        z1_labels_layout = QVBoxLayout()
-        red_frame.setLayout(z1_labels_layout)
-        for value in z1:
-            value_label = QLabel(value)
-            value_label.setAlignment(Qt.AlignCenter)  # Center the labels
-            z1_labels_layout.addWidget(value_label)
+        # Create a layout for the labels within the red frame
+        self.fileInfosLayout = QVBoxLayout()
+        red_frame.setLayout(self.fileInfosLayout)
 
         # Set the main layout as the central widget's layout
         central_widget = QWidget()
@@ -72,3 +69,20 @@ class View(QMainWindow):
 
         # Call the parent class's resizeEvent to ensure the rest of the UI is updated
         super().resizeEvent(event)
+
+    def onSelectionChanged(self):
+        # Clear the layout
+        while self.fileInfosLayout.count():
+            child = self.fileInfosLayout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+        # Get the title of the selected row
+        selected_items = self.table.selectedItems()
+        if selected_items:
+            title = selected_items[0].text()
+
+            # Create a label with the title and add it to the layout
+            title_label = QLabel(title)
+            title_label.setAlignment(Qt.AlignCenter)  # Center the label
+            self.fileInfosLayout.addWidget(title_label)
