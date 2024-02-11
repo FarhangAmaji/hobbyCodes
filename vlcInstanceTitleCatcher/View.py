@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboB
     QWidget, QLabel, QVBoxLayout, QFrame
 
 
-
 class View(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -41,6 +40,7 @@ class View(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
 
     def updateTitleStates(self, titleStates):
+        self.last_titleStates = titleStates
         self.table.setColumnCount(2)  # Set the number of columns in the table to 2
         self.table.setHorizontalHeaderLabels(
             ['Title', 'Duplicates'])  # Set the labels for the horizontal headers
@@ -81,8 +81,27 @@ class View(QMainWindow):
         selected_items = self.table.selectedItems()
         if selected_items:
             title = selected_items[0].text()
+            # find the key in the last_titleStates == title
+            stateDict = self.last_titleStates[title]
+
 
             # Create a label with the title and add it to the layout
             title_label = QLabel(title)
-            title_label.setAlignment(Qt.AlignCenter)  # Center the label
+            title_label.setAlignment(Qt.AlignLeft)  # Center the label
             self.fileInfosLayout.addWidget(title_label)
+
+            # Create a label with the state and add it to the layout
+            state_label = QLabel(stateDict['state'])
+            state_label.setAlignment(Qt.AlignLeft)
+            self.fileInfosLayout.addWidget(state_label)
+
+            # If there are duplicates, create a label for each one and add them to the layout
+            if stateDict['duplicates'] is not None:
+                for duplicate in stateDict['duplicates']:
+                    duplicate_label = QLabel(duplicate)
+                    duplicate_label.setAlignment(Qt.AlignLeft)
+                    self.fileInfosLayout.addWidget(duplicate_label)
+            else:
+                none_label = QLabel('None')
+                none_label.setAlignment(Qt.AlignLeft)
+                self.fileInfosLayout.addWidget(none_label)
