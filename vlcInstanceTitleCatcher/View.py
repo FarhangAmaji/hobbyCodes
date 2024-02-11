@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QApplication
+from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QApplication, QHeaderView
 
 
 class View(QMainWindow):
@@ -9,6 +9,9 @@ class View(QMainWindow):
 
         # Set the initial window size
         self.resize(800, 600)  # Adjust the width and height as desired
+
+        # Set the resize mode of the horizontal headers to interactive
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
 
 
     def updateTitleStates(self, title_states):
@@ -32,3 +35,11 @@ class View(QMainWindow):
 
             self.table.setItem(row, 0, title_item)
             self.table.setItem(row, 1, state_item)
+
+    def resizeEvent(self, event):
+        # Resize the last column to take up the remaining space in the table
+        header = self.table.horizontalHeader()
+        header.setStretchLastSection(True)
+
+        # Call the parent class's resizeEvent to ensure the rest of the UI is updated
+        super().resizeEvent(event)
