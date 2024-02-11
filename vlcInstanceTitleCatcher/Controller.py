@@ -7,6 +7,7 @@ class Controller:
     def __init__(self, model, view):
         self.model = model
         self.view = view
+        self.view.setController(self)  # Pass a reference of the controller to the view
         self.updateTitles()
 
     def checkTitleStates(self, titles):

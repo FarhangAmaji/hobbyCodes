@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QHeaderView, \
     QWidget, QLabel, QVBoxLayout, QFrame
 
@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboB
 class View(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        self.controller = None
 
         # Create the main layout with equal heights for upper and lower parts
         main_layout = QVBoxLayout()
@@ -59,8 +61,8 @@ class View(QMainWindow):
             else:
                 none_label = QLabel('None')
                 none_label.setAlignment(Qt.AlignCenter)
-                self.table.setCellWidget(row, 1, none_label)  # Set the QLabel as the cell widget in column 1
-                    
+                self.table.setCellWidget(row, 1,
+                                         none_label)  # Set the QLabel as the cell widget in column 1
 
             self.table.setItem(row, 0, titleItem)  # Set the QTableWidgetItem in column 0
 
@@ -107,3 +109,11 @@ class View(QMainWindow):
                 none_label = QLabel('None')
                 none_label.setAlignment(Qt.AlignLeft)
                 self.fileInfosLayout.addWidget(none_label)
+
+    def setController(self, controller):
+        self.controller = controller
+
+    def changeEvent(self, event):
+        if event.type() == QEvent.ActivationChange and self.isActiveWindow() and self.controller:
+            self.controller.updateTitles()
+        super().changeEvent(event)
