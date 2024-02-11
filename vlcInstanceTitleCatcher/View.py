@@ -57,8 +57,10 @@ class View(QMainWindow):
                 self.table.setCellWidget(row, 1,
                                          duplicatesCombo)  # Set the QComboBox as the cell widget in column 1
             else:
-                duplicatesItem.setText('None')  # Set the text of the QTableWidgetItem to 'None'
-                self.table.setItem(row, 1, duplicatesItem)  # Set the QTableWidgetItem in column 1
+                none_label = QLabel('None')
+                none_label.setAlignment(Qt.AlignCenter)
+                self.table.setCellWidget(row, 1, none_label)  # Set the QLabel as the cell widget in column 1
+                    
 
             self.table.setItem(row, 0, titleItem)  # Set the QTableWidgetItem in column 0
 
