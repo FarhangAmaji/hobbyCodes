@@ -1,12 +1,15 @@
 import os
 
 import pygetwindow as gw
+import pandas as pd
 
 
 class Model:
     def __init__(self, directories):
         self.directories = directories
 
+
+    
     def processDirectories(self):
         fileInfoList = []
         for directory in self.directories:
@@ -21,7 +24,8 @@ class Model:
                         'fileExtension': file_extension
                     }
                     fileInfoList.append(file_info)
-        return fileInfoList
+        df = pd.DataFrame(fileInfoList)
+        return df
 
     def getVlcTitles(self):
         windows = gw.getWindowsWithTitle('VLC media player')
@@ -32,4 +36,5 @@ class Model:
         return [title.replace(' - VLC media player', '') for title in self.getVlcTitles()]
 
 
-z=Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).processDirectories()
+z = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).processDirectories()
+# z2 = Model([r'E:\vids\paint\uncat', r'I:\musicvideo']).findDuplicateFiles()
