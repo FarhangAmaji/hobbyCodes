@@ -24,10 +24,10 @@ class Controller:
                     for file in duplicates_:
                         if file['subDir'] != '.':
                             duplicatePath = os.path.join(file['rootDir'], file['subDir'],
-                                                          file['fileName'] + file['fileExtension'])
+                                                         file['fileName'] + file['fileExtension'])
                         else:
                             duplicatePath = os.path.join(file['rootDir'],
-                                                          file['fileName'] + file['fileExtension'])
+                                                         file['fileName'] + file['fileExtension'])
                         duplicates.append(duplicatePath)
             else:
                 state = "Not found"

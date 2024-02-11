@@ -3,4 +3,3 @@ def removeExtension(fileName):
         return fileName[:fileName.rindex('.')]
     else:
         return fileName
-

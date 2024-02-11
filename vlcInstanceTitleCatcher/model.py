@@ -7,6 +7,7 @@ import pygetwindow as gw
 class Directories:
     def __init__(self, directories):
         self.directories = directories
+        self.stripFileNames()
         self.fileInfos = self.processDirectories()
         self.duplicateFiles = self.findDuplicateFiles()
 
@@ -20,6 +21,19 @@ class Directories:
                 duplicateFileNames[file_name] = []
             duplicateFileNames[file_name].append(row.to_dict())
         return duplicateFileNames
+
+    def stripFileNames(self):
+        for directory in self.directories:
+            for root_dir, sub_dirs, files in os.walk(directory):
+                for file in files:
+                    file_name, file_extension = os.path.splitext(file)
+                    stripped_file_name = file_name.strip()
+                    if file_name != stripped_file_name:
+                        new_file_name = stripped_file_name + file_extension
+                        old_file_path = os.path.join(root_dir, file)
+                        new_file_path = os.path.join(root_dir, new_file_name)
+                        print('because of stripping Renamed:', old_file_path, 'to:', new_file_path)
+                        os.rename(old_file_path, new_file_path)
 
     def processDirectories(self):
         fileInfoList = []

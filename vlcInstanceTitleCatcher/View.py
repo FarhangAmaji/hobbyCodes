@@ -84,7 +84,6 @@ class View(QMainWindow):
             # find the key in the last_titleStates == title
             stateDict = self.last_titleStates[title]
 
-
             # Create a label with the title and add it to the layout
             title_label = QLabel(title)
             title_label.setAlignment(Qt.AlignLeft)  # Center the label
