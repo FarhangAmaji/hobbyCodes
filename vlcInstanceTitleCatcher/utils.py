@@ -1,6 +1,6 @@
-def removeExtension(file_name):
-    if '.' in file_name:
-        return file_name[:file_name.rindex('.')]
+def removeExtension(fileName):
+    if '.' in fileName:
+        return fileName[:fileName.rindex('.')]
     else:
-        return file_name
+        return fileName
 

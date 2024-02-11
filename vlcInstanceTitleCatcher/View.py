@@ -14,25 +14,24 @@ class View(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
 
 
-    def updateTitleStates(self, title_states):
-        self.title_states = title_states
+    def updateTitleStates(self, titleStates):
         self.table.setColumnCount(2)
         self.table.setHorizontalHeaderLabels(['Title', 'Duplicates'])
-        self.table.setRowCount(len(self.title_states))
+        self.table.setRowCount(len(titleStates))
 
-        for row, (title, state_dict) in enumerate(self.title_states.items()):
-            title_item = QTableWidgetItem(title)
-            duplicates_item = QTableWidgetItem()
+        for row, (title, stateDict) in enumerate(titleStates.items()):
+            titleItem = QTableWidgetItem(title)
+            duplicatesItem = QTableWidgetItem()
 
-            if state_dict['duplicates'] is not None:
-                duplicates_combo = QComboBox()
-                duplicates_combo.addItems(state_dict['duplicates'])
-                self.table.setCellWidget(row, 1, duplicates_combo)
+            if stateDict['duplicates'] is not None:
+                duplicatesCombo = QComboBox()
+                duplicatesCombo.addItems(stateDict['duplicates'])
+                self.table.setCellWidget(row, 1, duplicatesCombo)
             else:
-                duplicates_item.setText('None')
-                self.table.setItem(row, 1, duplicates_item)
+                duplicatesItem.setText('None')
+                self.table.setItem(row, 1, duplicatesItem)
 
-            self.table.setItem(row, 0, title_item)
+            self.table.setItem(row, 0, titleItem)
 
     def resizeEvent(self, event):
         # Resize the last column to take up the remaining space in the table

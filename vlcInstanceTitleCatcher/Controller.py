@@ -10,7 +10,7 @@ class Controller:
         self.updateTitles()
 
     def checkTitleStates(self, titles):
-        title_states = {}
+        titleStates = {}
 
         for title in titles:
             title = removeExtension(title)
@@ -23,20 +23,20 @@ class Controller:
                     duplicates = []
                     for file in duplicates_:
                         if file['subDir'] != '.':
-                            duplicate_path = os.path.join(file['rootDir'], file['subDir'],
+                            duplicatePath = os.path.join(file['rootDir'], file['subDir'],
                                                           file['fileName'] + file['fileExtension'])
                         else:
-                            duplicate_path = os.path.join(file['rootDir'],
+                            duplicatePath = os.path.join(file['rootDir'],
                                                           file['fileName'] + file['fileExtension'])
-                        duplicates.append(duplicate_path)
+                        duplicates.append(duplicatePath)
             else:
                 state = "Not found"
-            title_states[title] = {'state': state, 'duplicates': duplicates}
+            titleStates[title] = {'state': state, 'duplicates': duplicates}
 
-        return title_states
+        return titleStates
 
     def updateTitles(self):
         titles = self.model.getRealTitles()
-        title_states = self.checkTitleStates(titles)
+        titleStates = self.checkTitleStates(titles)
 
-        self.view.updateTitleStates(title_states)
+        self.view.updateTitleStates(titleStates)
