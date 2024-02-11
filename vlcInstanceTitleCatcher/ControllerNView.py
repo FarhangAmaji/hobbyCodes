@@ -1,6 +1,8 @@
+import os
 import tkinter as tk
 
 from vlcInstanceTitleCatcher.model import Model
+from vlcInstanceTitleCatcher.utils import removeExtension
 
 
 class View:
@@ -27,13 +29,25 @@ class Controller:
         title_states = {}
 
         for title in titles:
-            if title in self.model.directories.fileInfos.values():
+            title = removeExtension(title)
+            duplicates = None
+            if title in self.model.directories.fileInfos['fileName'].values:
                 state = "single file"
-            elif title in self.model.duplicateFiles.keys():
-                state = "has duplicates"
+                if title in self.model.directories.duplicateFiles.keys():
+                    state = "has duplicates"
+                    duplicates_ = self.model.directories.duplicateFiles[title]
+                    duplicates = []
+                    for file in duplicates_:
+                        if file['subDir'] != '.':
+                            duplicate_path = os.path.join(file['rootDir'], file['subDir'],
+                                                          file['fileName'] + file['fileExtension'])
+                        else:
+                            duplicate_path = os.path.join(file['rootDir'],
+                                                          file['fileName'] + file['fileExtension'])
+                        duplicates.append(duplicate_path)
             else:
                 state = "Not found"
-            title_states[title] = state
+            title_states[title] = {'state': state, 'duplicates': duplicates}
 
         return title_states
 
