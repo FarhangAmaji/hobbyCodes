@@ -7,6 +7,7 @@ from vlcInstanceTitleCatcher.View import View
 from vlcInstanceTitleCatcher.model import Model
 
 
+# kkk jj which is a duplicate in subDir doesnt have dropdown
 def main():
     app = QApplication(sys.argv)  # Create the QApplication object
 

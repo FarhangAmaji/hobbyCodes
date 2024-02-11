@@ -1,23 +1,57 @@
-from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QApplication, QHeaderView
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QComboBox, QHeaderView, \
+    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
+
+z1 = ['1', '2']
 
 
 class View(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.table = QTableWidget()  # Create a QTableWidget instance
-        self.setCentralWidget(self.table)  # Set the QTableWidget as the central widget of the QMainWindow
 
-        # Set the initial window size
-        self.resize(800, 600)  # Adjust the width and height as desired
+        # Initialize the table widget
+        self.table = QTableWidget()
 
-        # Set the resize mode of the horizontal headers to interactive
+        # Create the main layout with equal heights for upper and lower parts
+        main_layout = QVBoxLayout()
+        upper_widget = QWidget()  # Create a QWidget for the upper part
+        upper_layout = QVBoxLayout()
+        upper_widget.setLayout(upper_layout)  # Set the layout for the upper widget
+        upper_layout.addWidget(self.table)
+        lower_widget = QWidget()  # Create a QWidget for the lower part
+        lower_layout = QVBoxLayout()
+        lower_widget.setLayout(lower_layout)  # Set the layout for the lower widget
+        main_layout.addWidget(upper_widget, stretch=1)  # Add widgets to the main layout
+        main_layout.addWidget(lower_widget, stretch=1)
+
+        # Create a red frame for the lower part background
+        red_frame = QFrame()
+        red_frame.setStyleSheet("background-color: red; border: 1px solid black;")
+        lower_layout.addWidget(red_frame)  # Add the red frame to the lower layout
+
+        # Create z1 labels within the red frame
+        z1_labels_layout = QVBoxLayout()
+        red_frame.setLayout(z1_labels_layout)
+        for value in z1:
+            value_label = QLabel(value)
+            value_label.setAlignment(Qt.AlignCenter)  # Center the labels
+            z1_labels_layout.addWidget(value_label)
+
+        # Set the main layout as the central widget's layout
+        central_widget = QWidget()
+        central_widget.setLayout(main_layout)
+        self.setCentralWidget(central_widget)
+
+        # Set initial window size and resize mode
+        self.resize(800, 600)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-
 
     def updateTitleStates(self, titleStates):
         self.table.setColumnCount(2)  # Set the number of columns in the table to 2
-        self.table.setHorizontalHeaderLabels(['Title', 'Duplicates'])  # Set the labels for the horizontal headers
-        self.table.setRowCount(len(titleStates))  # Set the number of rows in the table based on the length of titleStates
+        self.table.setHorizontalHeaderLabels(
+            ['Title', 'Duplicates'])  # Set the labels for the horizontal headers
+        self.table.setRowCount(
+            len(titleStates))  # Set the number of rows in the table based on the length of titleStates
 
         for row, (title, stateDict) in enumerate(titleStates.items()):
             titleItem = QTableWidgetItem(title)  # Create a QTableWidgetItem with the title
@@ -26,7 +60,8 @@ class View(QMainWindow):
             if stateDict['duplicates'] is not None:
                 duplicatesCombo = QComboBox()  # Create a QComboBox instance
                 duplicatesCombo.addItems(stateDict['duplicates'])  # Add items to the QComboBox
-                self.table.setCellWidget(row, 1, duplicatesCombo)  # Set the QComboBox as the cell widget in column 1
+                self.table.setCellWidget(row, 1,
+                                         duplicatesCombo)  # Set the QComboBox as the cell widget in column 1
             else:
                 duplicatesItem.setText('None')  # Set the text of the QTableWidgetItem to 'None'
                 self.table.setItem(row, 1, duplicatesItem)  # Set the QTableWidgetItem in column 1
