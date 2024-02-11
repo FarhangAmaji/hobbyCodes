@@ -2,6 +2,7 @@ import tkinter as tk
 
 from vlcInstanceTitleCatcher.model import Model
 
+
 class View:
     def __init__(self, root):
         self.root = root
@@ -22,8 +23,24 @@ class Controller:
         self.view = view
         self.updateTitles()
 
+    def checkTitleStates(self, titles):
+        title_states = {}
+
+        for title in titles:
+            if title in self.model.directories.fileInfos.values():
+                state = "single file"
+            elif title in self.model.duplicateFiles.keys():
+                state = "has duplicates"
+            else:
+                state = "Not found"
+            title_states[title] = state
+
+        return title_states
+
     def updateTitles(self):
         titles = self.model.getRealTitles()
+        title_states= self.checkTitleStates(titles)
+
         self.view.updateTitles(titles)
 
 
